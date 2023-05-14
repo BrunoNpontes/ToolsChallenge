@@ -18,6 +18,11 @@ public class ErrorDto implements Serializable {
     @JsonProperty("mensagem")
     private  String message;
 
+    public ErrorDto (Exception e){
+        this.code = HttpStatus.INTERNAL_SERVER_ERROR;
+        this.error = e.getCause()!=null?e.getCause().getMessage() : "ERROR";
+        this.message = e.getMessage() !=null?e.getMessage(): "Ocorreu um erro inesperado";
+    }
     public ErrorDto (RequestTransactionException ex){
         this.code = ex.getCode();
         this.error = ex.getError();

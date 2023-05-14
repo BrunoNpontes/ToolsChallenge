@@ -2,7 +2,6 @@ package com.toolschallenge.ToolsChallenge.service.utils;
 
 import com.toolschallenge.ToolsChallenge.exceptions.ResponseExceptionEnum;
 import com.toolschallenge.ToolsChallenge.exceptions.RequestTransactionException;
-import com.toolschallenge.ToolsChallenge.model.dto.PaymentMethodDto;
 import com.toolschallenge.ToolsChallenge.service.enums.PaymentMethodEnum;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ import java.util.Optional;
 @Service
 public class ToolsUtil {
 
-    public String validationNumCard(String numCard, String nameCamp) throws RequestTransactionException {
+    public String validNumCard(String numCard, String nameCamp) throws RequestTransactionException {
         validIfNullOrEmpty(numCard, nameCamp);
 
         // Remove quaisquer espaços em branco ou traços do número do cartão
@@ -36,7 +35,7 @@ public class ToolsUtil {
         }
     }
 
-    public LocalDateTime converToDateTime(String dateTime, String nameCamp) throws RequestTransactionException {
+    public LocalDateTime convertToDateTime(String dateTime, String nameCamp) throws RequestTransactionException {
         validIfNullOrEmpty(dateTime, "datHora");
         if(!dateTime.matches("^\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}:\\d{2}$")){
             throw new RequestTransactionException(ResponseExceptionEnum.FORMAT_INVALID_DATE_TIME, nameCamp);
@@ -57,7 +56,7 @@ public class ToolsUtil {
     public String validTypePayment(String type) throws RequestTransactionException {
         String nameCamp = "tipo";
         validIfNullOrEmpty(type, nameCamp);
-        if(PaymentMethodEnum.CASH.checksTypes()){
+        if(PaymentMethodEnum.CASH.nexTypes(type)){
             return type;
         }else{
             throw new RequestTransactionException(ResponseExceptionEnum.FORMAT_INVALID_PAYMENT_METHOD, nameCamp);

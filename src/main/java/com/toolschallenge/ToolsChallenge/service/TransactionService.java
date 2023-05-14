@@ -47,6 +47,9 @@ public class TransactionService {
         }catch (RequestTransactionException ex){
             ErrorDto error = new ErrorDto(ex);
             return new ResponseEntity<>(new ResponseTransactionDto(error), error.getCode());
+        }catch (Exception e){
+            ErrorDto error = new ErrorDto(e);
+            return new ResponseEntity<>(new ResponseTransactionDto(error), error.getCode());
         }
     }
 
@@ -81,7 +84,7 @@ public class TransactionService {
     private void prepareRequestPayment(TransactionDto request) throws RequestTransactionException {
         transactionEntity = new TransactionEntity();
         transactionEntity.setIdTransaction(tools.validId(request.getIdTransaction(),"id"));
-        transactionEntity.setNumCard(tools.validationNumCard(request.getNumCard(), "cartao"));
+        transactionEntity.setNumCard(tools.validNumCard(request.getNumCard(), "cartao"));
         transactionEntity.setDescription(prepareDescription(request.getDescription()));
         transactionEntity.setPaymentMethod(preparePaymentMethod(request.getPaymentMethod()));
     }
@@ -94,11 +97,11 @@ public class TransactionService {
         return  response;
     }
 
-    public DescriptionEntity prepareDescription(DescriptionDto description) throws RequestTransactionException {
+    private DescriptionEntity prepareDescription(DescriptionDto description) throws RequestTransactionException {
         tools.validIfNullOrEmpty(description,"descricao");
         DescriptionEntity response = new DescriptionEntity();
         response.setValue(tools.converToBigdecimal(description.getValue(), "valor"));
-        response.setDateTime(tools.converToDateTime(description.getDateTime(),"dataHora"));
+        response.setDateTime(tools.convertToDateTime(description.getDateTime(),"dataHora"));
         tools.validIfNullOrEmpty(description.getEstablishment(),"estabelecimento");
         response.setEstablishment(description.getEstablishment());
         return  response;

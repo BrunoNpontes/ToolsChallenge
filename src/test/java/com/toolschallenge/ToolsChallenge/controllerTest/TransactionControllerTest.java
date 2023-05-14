@@ -1,31 +1,46 @@
 package com.toolschallenge.ToolsChallenge.controllerTest;
 
-import com.google.gson.Gson;
-import com.toolschallenge.ToolsChallenge.model.dto.DescriptionDto;
-import com.toolschallenge.ToolsChallenge.model.dto.PaymentMethodDto;
+import com.toolschallenge.ToolsChallenge.MockApplication;
+import com.toolschallenge.ToolsChallenge.controller.TransactionController;
+import com.toolschallenge.ToolsChallenge.model.dto.ResponseTransactionDto;
 import com.toolschallenge.ToolsChallenge.model.dto.TransactionDto;
-import com.toolschallenge.ToolsChallenge.service.enums.PaymentMethodEnum;
+import com.toolschallenge.ToolsChallenge.service.TransactionService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDateTime;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class TransactionControllerTest {
-    @Test
-    public void t(){
-        Gson g = new Gson();
-        TransactionDto dto = new TransactionDto();
-        dto.setIdTransaction("445");
-        dto.setNumCard("4578545581945618");
-        DescriptionDto des = new DescriptionDto();
-        des.setDateTime(LocalDateTime.now().toString());
-        des.setValue("45.23");
-        des.setEstablishment("posto");
-        dto.setDescription(des);
-        PaymentMethodDto payment = new PaymentMethodDto();
-        payment.setType(PaymentMethodEnum.CASH.getValue());
-        payment.setInstallments("12");
-        String s = g.toJson(dto);
-        System.out.println(s);
 
+    @InjectMocks
+    TransactionController controller;
+
+    @Mock
+    TransactionService service;
+
+
+    @Test
+    public void testMakePaymentSucess(){
+        TransactionDto request = MockApplication.transactionDto();
+        when(service.makePayment(request)).thenReturn(MockApplication.responseTransactionDtoResponseEntitySucess());
+        ResponseEntity<ResponseTransactionDto> res = controller.makePayment(request);
+        assertEquals(res.getStatusCode(), MockApplication.responseTransactionDtoResponseEntitySucess().getStatusCode());
+        assertNotNull(res.getBody().getTransaction());
+    }
+
+    @Test
+    public void testMakePaymentBad(){
+        TransactionDto request = MockApplication.transactionDto();
+        when(service.makePayment(request)).thenReturn(MockApplication.responseTransactionDtoResponseEntityBad());
+        ResponseEntity<ResponseTransactionDto> res = controller.makePayment(request);
+        assertEquals(res.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
 }

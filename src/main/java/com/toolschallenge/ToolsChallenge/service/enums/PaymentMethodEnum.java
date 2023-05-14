@@ -4,25 +4,25 @@ public enum PaymentMethodEnum {
 
     CASH("AVISTA") {
         @Override
-        public Boolean checksTypes() {
-           if(this.getValue().equals("AVISTA"))
+        public Boolean nexTypes(String value) {
+           if(this.getValue().equals(value))
                return true;
 
-           return PARCELED_STORE.checksTypes();
+           return PARCELED_STORE.nexTypes(value);
         }
     }, PARCELED_STORE("PARCELADO LOJA") {
         @Override
-        public Boolean checksTypes() {
-            if(this.getValue().equals("PARCELADO LOJA"))
+        public Boolean nexTypes(String value) {
+            if(this.getValue().equals(value))
                 return true;
 
-            return ISSUER_INSTALLMENT.checksTypes();
+            return ISSUER_INSTALLMENT.nexTypes(value);
         }
     },
     ISSUER_INSTALLMENT("PARCELADO EMISSOR") {
         @Override
-        public Boolean checksTypes() {
-            if(this.getValue().equals("PARCELADO EMISSOR"))
+        public Boolean nexTypes(String value)  {
+            if(this.getValue().equals(value))
                 return true;
 
             return false;
@@ -34,7 +34,7 @@ public enum PaymentMethodEnum {
         this.value = value;
     }
 
-    public abstract Boolean checksTypes();
+    public abstract Boolean nexTypes(String value);
 
 
     public String getValue() {

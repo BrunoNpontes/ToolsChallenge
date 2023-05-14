@@ -1,6 +1,7 @@
 package com.toolschallenge.ToolsChallenge.controller;
 
 import com.toolschallenge.ToolsChallenge.exceptions.RequestTransactionException;
+import com.toolschallenge.ToolsChallenge.model.dto.ResponseTransactionDto;
 import com.toolschallenge.ToolsChallenge.model.dto.TransactionDto;
 import com.toolschallenge.ToolsChallenge.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class TransactionController {
     TransactionService service;
 
     @RequestMapping(value = "make/payment", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> makePayment(@RequestBody TransactionDto request) {
+    public ResponseEntity<ResponseTransactionDto> makePayment(@RequestBody TransactionDto request) {
     return service.makePayment(request);
     }
 
