@@ -22,7 +22,7 @@ public class DataInitializer implements CommandLineRunner {
         jdbcTemplate.execute("INSERT INTO descricao (valor, data_hora, estabelecimento, nsu, codigo_autorizacao, status)\n" +
                 "VALUES (150.75, '2022-05-12 14:30:00', 'Supermercado ABC', '123456789', '987654', 'Aprovada')");
 
-        jdbcTemplate.execute("INSERT INTO transacoes (numero_cartao, descricao_id, metodo_de_pagamento_id)\n" +
-                "VALUES ('1111 2222 3333 4444', 1, 1)");
+        jdbcTemplate.execute("INSERT INTO transacoes (id,numero_cartao, descricao_id, metodo_de_pagamento_id)\n" +
+                "VALUES (23456454545,'1111 2222 3333 4444', 1, 1)");
     }
 }

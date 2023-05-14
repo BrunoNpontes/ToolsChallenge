@@ -2,13 +2,14 @@ package com.toolschallenge.ToolsChallenge.model.entitys;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity(name = "transacoes")
 @Data
 public class TransactionEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long idTransaction;
     @Column(name = "numero_cartao")

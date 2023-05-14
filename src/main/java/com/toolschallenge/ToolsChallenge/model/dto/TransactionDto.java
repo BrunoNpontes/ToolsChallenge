@@ -1,13 +1,16 @@
 package com.toolschallenge.ToolsChallenge.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-@JsonTypeName("transacao")
+@JsonPropertyOrder({"cartao","id","descricao","formaPagamento" })
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TransactionDto implements Serializable {
 
     @JsonProperty("id")
@@ -18,4 +21,6 @@ public class TransactionDto implements Serializable {
     private DescriptionDto description;
     @JsonProperty("formaPagamento")
     private PaymentMethodDto paymentMethod;
+
+
 }

@@ -5,8 +5,7 @@ import java.io.Serializable;
 public enum StatusTransactionEnum implements Serializable {
 
 
-    CASH("AVISTA"), PARCELED_STORE("PARCELADO LOJA"),
-    ISSUER_INSTALLMENT("PARCELADO EMISSOR") ;
+    AUTHORIZED("AUTORIZADO"), NEGATE("NEGADO");
 
     private final String value;
     StatusTransactionEnum(String value) {
