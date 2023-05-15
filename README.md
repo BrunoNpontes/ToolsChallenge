@@ -30,7 +30,7 @@
     </ol>
     <h2>Como testar a API</h2>
     <ul>
-      <li>Para testar a operação de pagamento, envie uma requisição POST para http://localhost:8080/transactions/make/payment, passando o JSON abaixo como payload da requisição:</li>
+      <li>Para testar a operação de pagamento, envie uma requisição POST para http://localhost:8080/transactions/make/payment, passando o JSON abaixo como body da requisição:</li>
       <pre>
       {
         "id":"025894367",
@@ -48,7 +48,7 @@
       </pre>
       <li>Para testar a operação de consulta de transação por ID, envie uma requisição GET para http://localhost:8080/transactions/consult/payment/{id}, passando o ID da transação que deseja consultar.</li>
       <li>Para testar a operação de consulta de todas as transações, envie uma requisição GET para http://localhost:8080/transactions/consult/payment/all.</li>
-      <li>Para testar a operação de consulta de estorno de transação por ID, envie uma requisição GET para http://localhost:8080/transactions/consult/payment/chargeback/{id}, passando o ID da transação que deseja estornar.</li>
+      <li>Para testar a operação de consulta de estorno de transação por ID, envie uma requisição GET para http://localhost:8080/transactions/consult/payment/chargeback/{id}, passando o ID da transação que deseja.</li>
 
 <h2>Autor</h2> 
 <h4>BrunoNpontes</h4>
