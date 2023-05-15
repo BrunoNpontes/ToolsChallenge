@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/transactions")
 public class TransactionController {
@@ -27,11 +25,21 @@ public class TransactionController {
 
     @RequestMapping(value = "consult/payment/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<ResponseTransactionDto> consultTransactionById(@PathVariable Long id) {
-        return service.consultTransctionById(id);
+        return service.consultTransactionById(id,false);
     }
 
     @RequestMapping(value = "consult/payment/all", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> consultTransactionById() {
-        return service.consultTransactionByAll();
+    public ResponseEntity<?> consultTransactionAll() {
+        return service.consultTransactionByAll(false);
+    }
+
+    @RequestMapping(value = "consult/payment/chargeback/{id}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> consultTransactionChargebackId(@PathVariable Long id) {
+        return service.consultTransactionById(id, true);
+    }
+
+    @RequestMapping(value = "consult/payment/chargeback/all", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> consultTransactionChargebackId() {
+        return service.consultTransactionByAll(true);
     }
 }

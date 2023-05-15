@@ -109,12 +109,19 @@ public class TransactionService {
     }
 
 
-    public ResponseEntity<ResponseTransactionDto> consultTransctionById(Long id) {
+    public ResponseEntity<ResponseTransactionDto> consultTransactionById(Long id, Boolean findByCANCELED) {
         try {
-            Optional<TransactionEntity> result = transactionRepository.findById(id);
-            if(result.isEmpty()){
-                throw new RequestTransactionException(ResponseExceptionEnum.TRANSACTION_NOT_FOUND_BY_ID,"id");
+            Optional<TransactionEntity> result;
+            if(findByCANCELED){
+                result  = transactionRepository.findChargebackById(id);
+            }else{
+                result = transactionRepository.findById(id);
             }
+            if (result.isEmpty()) {
+                throw new RequestTransactionException(
+                        findByCANCELED ? ResponseExceptionEnum.TRANSACTION_NOT_FOUND_CANCELED_BY_ID : ResponseExceptionEnum.TRANSACTION_NOT_FOUND_BY_ID, "");
+            }
+
             return  new ResponseEntity<>(new ResponseTransactionDto(result.get()), HttpStatus.OK);
         }catch (RequestTransactionException ex){
             ErrorDto error = new ErrorDto(ex);
@@ -126,12 +133,19 @@ public class TransactionService {
 
     }
 
-    public ResponseEntity<?> consultTransactionByAll() {
+    public ResponseEntity<?> consultTransactionByAll(Boolean findByCANCELED) {
         try {
-            List<TransactionEntity> result = transactionRepository.findAll();
-            if(result.isEmpty()){
-                throw new RequestTransactionException(ResponseExceptionEnum.TRANSACTION_NOT_FOUND,"");
+            List<TransactionEntity> result;
+            if (findByCANCELED) {
+                result = transactionRepository.findChargebackAll();
+            } else {
+                result = transactionRepository.findAll();
             }
+            if (result.isEmpty()) {
+                throw new RequestTransactionException(
+                        findByCANCELED ? ResponseExceptionEnum.TRANSACTION_NOT_FOUND_CANCELED : ResponseExceptionEnum.TRANSACTION_NOT_FOUND, "");
+            }
+
             return  new ResponseEntity<>(ResponseTransactionDto.convertToListDTO(result), HttpStatus.OK);
         }catch (RequestTransactionException ex){
             ErrorDto error = new ErrorDto(ex);
@@ -141,4 +155,5 @@ public class TransactionService {
             return new ResponseEntity<>(new ResponseTransactionDto(error), error.getCode());
         }
     }
+
 }

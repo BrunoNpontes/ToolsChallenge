@@ -5,7 +5,7 @@ import java.io.Serializable;
 public enum StatusTransactionEnum implements Serializable {
 
 
-    AUTHORIZED("AUTORIZADO"), NEGATE("NEGADO");
+    AUTHORIZED("AUTORIZADO"), NEGATE("NEGADO"), CANCELED("CANCELADO");
 
     private final String value;
     StatusTransactionEnum(String value) {

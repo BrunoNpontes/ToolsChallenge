@@ -12,7 +12,7 @@ public class DescriptionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id_desc")
     private Long idDescription;
     @Column(name = "valor")
     private BigDecimal value;

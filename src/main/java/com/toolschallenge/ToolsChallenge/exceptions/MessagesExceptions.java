@@ -16,4 +16,6 @@ public class MessagesExceptions {
     public static final String INVALID_QUANTITY_INSTALLMENTS = "Quatidade de parcelas invalida para pagamento avista" ;
     public static final String TRANSACTION_NOT_FOUND = "Nenhuma transação";
     public static final String TRANSACTION_NOT_FOUND_BY_ID = "Nenhuma transação com id ultilizado foi encontrada";
+    public static final String TRANSACTION_NOT_FOUND_CANCELED = "Não a transações canceladas";
+    public static final String TRANSACTION_NOT_FOUND_CANCELED_BY_ID = "Não a um transação cancelada com o id informado";
 }
