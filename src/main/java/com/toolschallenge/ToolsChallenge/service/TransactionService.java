@@ -38,7 +38,6 @@ public class TransactionService {
 
     private TransactionEntity transactionEntity;
 
-    private static final BigDecimal DAILY_LIMIT_VALUE = new BigDecimal("30000.00");
 
     public ResponseEntity<ResponseTransactionDto> makePayment(TransactionDto request) {
         try{
@@ -66,20 +65,16 @@ public class TransactionService {
         return new ResponseTransactionDto(transactionEntity);
     }
 
+    //fake authentication method
     private void authorizationPayment() throws RequestTransactionException {
         Optional<TransactionEntity> optional =transactionRepository.findById(transactionEntity.getIdTransaction());
         if(optional.isPresent()){
             throw  new RequestTransactionException(ResponseExceptionEnum.NOT_DUPLICATE_PAYMENT, "id");
         }
-        if (transactionEntity.getDescription().getValue().compareTo(DAILY_LIMIT_VALUE)< 0 ){
             transactionEntity.getDescription().setAuthCode(GenerateRandomNumber.
                     toGenerate(transactionEntity.getIdTransaction(), transactionEntity.getNumCard()));
             transactionEntity.getDescription().setNsu(GenerateRandomNumber.toNsu(transactionEntity.getIdTransaction()));
             transactionEntity.getDescription().setStatusTransaction(StatusTransactionEnum.AUTHORIZED.getValue());
-        }else{
-            transactionEntity.getDescription().setStatusTransaction(StatusTransactionEnum.NEGATE.getValue());
-        }
-
     }
 
     private void prepareRequestPayment(TransactionDto request) throws RequestTransactionException {

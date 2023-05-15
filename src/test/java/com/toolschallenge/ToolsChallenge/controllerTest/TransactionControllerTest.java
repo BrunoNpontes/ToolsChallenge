@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,5 +43,14 @@ public class TransactionControllerTest {
         when(service.makePayment(request)).thenReturn(MockApplication.responseTransactionDtoResponseEntityBad());
         ResponseEntity<ResponseTransactionDto> res = controller.makePayment(request);
         assertEquals(res.getStatusCode(), HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void consultTransactionById(){
+        when(service.consultTransactionById(any(), any())).
+                thenReturn(MockApplication.responseTransactionDtoResponseEntitySucess());
+        ResponseEntity<ResponseTransactionDto> res = controller.consultTransactionById(1L);
+        assertEquals(res.getStatusCode(), HttpStatus.OK);
+
     }
 }

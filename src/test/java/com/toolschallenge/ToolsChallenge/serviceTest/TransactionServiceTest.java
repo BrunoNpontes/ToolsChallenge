@@ -1,6 +1,7 @@
 package com.toolschallenge.ToolsChallenge.serviceTest;
 
 import com.toolschallenge.ToolsChallenge.MockApplication;
+import com.toolschallenge.ToolsChallenge.exceptions.MessagesExceptions;
 import com.toolschallenge.ToolsChallenge.exceptions.RequestTransactionException;
 import com.toolschallenge.ToolsChallenge.model.dto.ResponseTransactionDto;
 import com.toolschallenge.ToolsChallenge.model.entitys.TransactionEntity;
@@ -57,19 +58,6 @@ public class TransactionServiceTest {
                 getStatusTransaction().equals("AUTORIZADO"));
     }
 
-    @Test
-    public void testMakePaymentNegate() throws RequestTransactionException {
-        when(tools.validId(any(), any())).thenReturn(Long.parseLong("547689256"));
-        when(tools.validNumCard(any(), any())).thenReturn("123456749851");
-        when(tools.converToBigdecimal(any(), any())).thenReturn(new BigDecimal("45000.00"));
-        when(tools.convertToDateTime(any(), any())).thenReturn(LocalDateTime.now());
-        when(tools.validTypePayment(any())).thenReturn("AVISTA");
-        when(tools.validInstallments(any(), any(), any())).thenReturn(Integer.parseInt("1"));
-        ResponseEntity<ResponseTransactionDto> res =  service.makePayment(MockApplication.transactionDto());
-        assertEquals(res.getStatusCode(), HttpStatus.OK);
-        assertEquals(true, res.getBody().getTransaction().getDescription().
-                getStatusTransaction().equals("NEGADO"));
-    }
 
     @Test
     public void testMakePaymentNOT_DUPLICATE_ID() throws RequestTransactionException {
@@ -84,6 +72,29 @@ public class TransactionServiceTest {
 
         ResponseEntity<ResponseTransactionDto> res =  service.makePayment(MockApplication.transactionDto());
         assertEquals(res.getStatusCode(), HttpStatus.CONFLICT);
+    }
+
+    @Test
+    public void testConsultTransactionById()  {
+        ResponseEntity<ResponseTransactionDto> res =  service.consultTransactionById(1L, false);
+        verify(transactionRepository).findById(1l);
+    }
+
+    @Test
+    public void testConsultTransactionByIdCANCELED()  {
+        ResponseEntity<ResponseTransactionDto> res =  service.consultTransactionById(1L, true);
+        verify(transactionRepository).findChargebackById(1l);
+    }
+
+    @Test
+    public void testConsultTransactionByIdCANCELEDAll()  {
+        ResponseEntity<?> res =  service.consultTransactionByAll( true);
+        verify(transactionRepository).findChargebackAll();
+    }
+    @Test
+    public void testConsultTransactionAll()  {
+        ResponseEntity<?> res =  service.consultTransactionByAll( false);
+        verify(transactionRepository).findAll();
     }
 
 }

@@ -28,19 +28,19 @@ public class ToolsUtilTest {
     @Test
     public void validExceptionCard()  {
 
-        //valida se tem apenas numeros
+        //validate if there are only number
         assertEquals(MessagesExceptions.NUMBERS_ONLY_ATTRIBUTE_CARD,
                 assertThrows(RequestTransactionException.class, () ->
                         tools.validNumCard("12345fff24578", "cartao"))
                         .getMenssagen());
 
-        //valida se esta null
+        //validate if it is null
         assertEquals(MessagesExceptions.VALID_IF_NULL_OR_EMPTY,
                 assertThrows(RequestTransactionException.class, () ->
                         tools.validNumCard(null, "cartao"))
                         .getMenssagen());
 
-        //valida se esta vazio
+        //validate if it is empty
         assertEquals(MessagesExceptions.VALID_IF_NULL_OR_EMPTY,
                 assertThrows(RequestTransactionException.class, () ->
                         tools.validNumCard("", "cartao"))
@@ -55,19 +55,19 @@ public class ToolsUtilTest {
 
     @Test
     public void validExceptionConvertToDateTime()  {
-        // valida se a string esta diacordo com o formato exigido
+        // validates if the string matches the required format
         assertEquals(MessagesExceptions.FORMAT_INVALID_ATTRIBUTE_DATE_TIME,
                 assertThrows(RequestTransactionException.class, () ->
                         tools.convertToDateTime("2023-01-2023 15:15:30", "dataHora"))
                         .getMenssagen());
 
-        //verifica se esta vazia
+        // check if it is empty
         assertEquals(MessagesExceptions.VALID_IF_NULL_OR_EMPTY,
                 assertThrows(RequestTransactionException.class, () ->
                         tools.convertToDateTime("", "dataHora"))
                         .getMenssagen());
 
-        // verifica se esta null
+        // check if it is null
         assertEquals(MessagesExceptions.VALID_IF_NULL_OR_EMPTY,
                 assertThrows(RequestTransactionException.class, () ->
                         tools.convertToDateTime(null, "dataHora"))
@@ -83,18 +83,18 @@ public class ToolsUtilTest {
 
     @Test
     public void validExceptionConvertToBiDecimal()  {
-        // valida se esta no patão correto
+        // validates if it is in the correct path
         assertEquals(MessagesExceptions.FORMAT_INVALID_FOR_BIGDECIMAL,
                 assertThrows(RequestTransactionException.class, () ->
                         tools.converToBigdecimal("23,23.00 ", "valor"))
                         .getMenssagen());
 
-        //valida se esta null
+        //validate if it is null
         assertEquals(MessagesExceptions.VALID_IF_NULL_OR_EMPTY,
                 assertThrows(RequestTransactionException.class, () ->
                         tools.converToBigdecimal(null, "valor"))
                         .getMenssagen());
-        //valida se esta vazio
+        //validate if it is empty
         assertEquals(MessagesExceptions.VALID_IF_NULL_OR_EMPTY,
                 assertThrows(RequestTransactionException.class, () ->
                         tools.converToBigdecimal("", "valor"))
@@ -123,15 +123,14 @@ public class ToolsUtilTest {
     @Test
     public void validExceptionId()  {
 
-        //valida se esta vazio
         assertEquals(MessagesExceptions.VALID_IF_NULL_OR_EMPTY,
                 assertThrows(RequestTransactionException.class, () -> tools.validId("","id"))
                         .getMenssagen());
-        //valida se esta null
+
         assertEquals(MessagesExceptions.VALID_IF_NULL_OR_EMPTY,
                 assertThrows(RequestTransactionException.class, () -> tools.validId(null,"id"))
                         .getMenssagen());
-        // valida se esta no formato valido
+
         assertEquals(MessagesExceptions.ID_INVALID,
                 assertThrows(RequestTransactionException.class, () -> tools.validId("1234789","id"))
                         .getMenssagen());
@@ -145,16 +144,14 @@ public class ToolsUtilTest {
 
     @Test
     public void validExceptionTypeNumeric() throws RequestTransactionException {
-        // valida se esta no vazio
         assertEquals(MessagesExceptions.VALID_IF_NULL_OR_EMPTY,
                 assertThrows(RequestTransactionException.class, () -> tools.validTypeNumeric("","test"))
                         .getMenssagen());
-        // valida se esta no null
+
         assertEquals(MessagesExceptions.VALID_IF_NULL_OR_EMPTY,
                 assertThrows(RequestTransactionException.class, () -> tools.validTypeNumeric(null,"test"))
                         .getMenssagen());
 
-        // valida se contem apenas numeros
         assertEquals(MessagesExceptions.NUMBERS_ONLY_ATTRIBUTE_CARD,
                 assertThrows(RequestTransactionException.class, () -> tools.validTypeNumeric("bg34222","test"))
                         .getMenssagen());
@@ -170,16 +167,15 @@ public class ToolsUtilTest {
 
     @Test
     public void validExceptionInstallments() throws RequestTransactionException {
-        // valida se esta no vazio
         assertEquals(MessagesExceptions.VALID_IF_NULL_OR_EMPTY,
                 assertThrows(RequestTransactionException.class, () -> tools.validInstallments("","AVISTA", "parcelas"))
                         .getMenssagen());
-        // valida se esta no null
+
         assertEquals(MessagesExceptions.VALID_IF_NULL_OR_EMPTY,
                 assertThrows(RequestTransactionException.class, () -> tools.validInstallments(null,"AVISTA", "parcelas"))
                         .getMenssagen());
 
-        // valida se o tipo e avista e a quantidade e parcelas e 1
+        // validates if the type is AVISTA and the quantity and installments is 1
         assertEquals(MessagesExceptions.INVALID_QUANTITY_INSTALLMENTS,
                 assertThrows(RequestTransactionException.class, () -> tools.validInstallments("5","AVISTA", "parcelas"))
                         .getMenssagen());

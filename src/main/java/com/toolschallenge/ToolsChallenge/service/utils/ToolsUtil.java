@@ -21,10 +21,10 @@ public class ToolsUtil {
     public String validNumCard(String numCard, String nameCamp) throws RequestTransactionException {
         validIfNullOrEmpty(numCard, nameCamp);
 
-        // Remove quaisquer espaços em branco ou traços do número do cartão
+        // Remove any whitespace or dashes from the card number
         numCard = numCard.replaceAll("[\\s-]", "");
 
-        // Verifica se o número do cartão tem pelo menos 12 dígitos e se é numérico
+        // Checks if the card number has at least 12 digits and is numeric
         if (numCard.length() < 12 || !numCard.matches("[0-9]+")) {
             throw new RequestTransactionException(ResponseExceptionEnum.CAMP_IS_NUMERIC_TYPE, nameCamp);
         }
