@@ -6,6 +6,7 @@ import com.toolschallenge.ToolsChallenge.model.entitys.TransactionEntity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -23,27 +24,13 @@ public class ResponseTransactionDto implements Serializable {
         this.error = error;
     }
 
-    public static ResponseTransactionDto converto(TransactionEntity entity) {
-        ResponseTransactionDto response = new ResponseTransactionDto();
-            TransactionDto transact = new TransactionDto();
-            transact.setIdTransaction(entity.getIdTransaction().toString());
-            transact.setNumCard(entity.getNumCard());
-            DescriptionDto description = new DescriptionDto();
-                    description.setEstablishment(entity.getDescription().getEstablishment());
-                    description.setValue(entity.getDescription().getValue().toString());
-                    description.setDateTime(entity.getDescription().getDateTime().toString());
-                    description.setNsu(entity.getDescription().getNsu());
-                    description.setAuthCode(entity.getDescription().getAuthCode());
-                    description.setStatusTransaction(entity.getDescription().getStatusTransaction());
-                    transact.setDescription(description);
-                    PaymentMethodDto paymentMethod = new PaymentMethodDto();
-                    paymentMethod.setInstallments(entity.getPaymentMethod().getInstallments().toString());{
-                        paymentMethod.setType(entity.getPaymentMethod().getType());
-                        transact.setPaymentMethod(paymentMethod);
-                        response.setTransaction(transact);
-                        return response;
-        }
+    public ResponseTransactionDto(TransactionEntity entity) {
+        this.transaction = new TransactionDto(entity);
+    }
 
+
+    public static List<ResponseTransactionDto> convertToListDTO(List<TransactionEntity> result) {
+        return result.stream().map(ResponseTransactionDto::new).toList();
     }
 }
 

@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,7 +43,7 @@ public class TransactionService {
     public ResponseEntity<ResponseTransactionDto> makePayment(TransactionDto request) {
         try{
             prepareRequestPayment(request);
-            ResponseTransactionDto response = executPayment(transactionEntity);
+            ResponseTransactionDto response = executePayment(transactionEntity);
             return new ResponseEntity<>(response,HttpStatus.OK);
         }catch (RequestTransactionException ex){
             ErrorDto error = new ErrorDto(ex);
@@ -53,7 +54,7 @@ public class TransactionService {
         }
     }
 
-    private ResponseTransactionDto executPayment(TransactionEntity transactionEntity) throws RequestTransactionException {
+    private ResponseTransactionDto executePayment(TransactionEntity transactionEntity) throws RequestTransactionException {
         authorizationPayment();
         if(transactionEntity.getDescription().getStatusTransaction().
                 equals(StatusTransactionEnum.AUTHORIZED.getValue())){
@@ -62,7 +63,7 @@ public class TransactionService {
             paymentMethodRepository.save(transactionEntity.getPaymentMethod());
             transactionRepository.save(transactionEntity);
         }
-        return ResponseTransactionDto.converto(transactionEntity);
+        return new ResponseTransactionDto(transactionEntity);
     }
 
     private void authorizationPayment() throws RequestTransactionException {
@@ -108,10 +109,36 @@ public class TransactionService {
     }
 
 
+    public ResponseEntity<ResponseTransactionDto> consultTransctionById(Long id) {
+        try {
+            Optional<TransactionEntity> result = transactionRepository.findById(id);
+            if(result.isEmpty()){
+                throw new RequestTransactionException(ResponseExceptionEnum.TRANSACTION_NOT_FOUND_BY_ID,"id");
+            }
+            return  new ResponseEntity<>(new ResponseTransactionDto(result.get()), HttpStatus.OK);
+        }catch (RequestTransactionException ex){
+            ErrorDto error = new ErrorDto(ex);
+            return new ResponseEntity<>(new ResponseTransactionDto(error), error.getCode());
+        }catch (Exception e){
+            ErrorDto error = new ErrorDto(e);
+            return new ResponseEntity<>(new ResponseTransactionDto(error), error.getCode());
+        }
 
+    }
 
-
-
-
-
+    public ResponseEntity<?> consultTransactionByAll() {
+        try {
+            List<TransactionEntity> result = transactionRepository.findAll();
+            if(result.isEmpty()){
+                throw new RequestTransactionException(ResponseExceptionEnum.TRANSACTION_NOT_FOUND,"");
+            }
+            return  new ResponseEntity<>(ResponseTransactionDto.convertToListDTO(result), HttpStatus.OK);
+        }catch (RequestTransactionException ex){
+            ErrorDto error = new ErrorDto(ex);
+            return new ResponseEntity<>(new ResponseTransactionDto(error), error.getCode());
+        }catch (Exception e){
+            ErrorDto error = new ErrorDto(e);
+            return new ResponseEntity<>(new ResponseTransactionDto(error), error.getCode());
+        }
+    }
 }

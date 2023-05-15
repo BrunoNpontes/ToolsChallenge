@@ -12,7 +12,9 @@ public enum ResponseExceptionEnum {
     FORMAT_INVALID_PAYMENT_METHOD(HttpStatus.BAD_REQUEST, "Erro ao validar o atributo ",MessagesExceptions.FORMAT_INVALID_ATTRIBUTE_PAYMENT_METHOD),
     NOT_DUPLICATE_PAYMENT(HttpStatus.CONFLICT, "Conflito no atributo ",MessagesExceptions.NOT_DUPLICATE_PAYMENT ),
     ID_INVALID(HttpStatus.BAD_REQUEST, "Erro ao validar o atributo ", MessagesExceptions.ID_INVALID ),
-    INVALID_QUANTITY_INSTALLMENTS(HttpStatus.BAD_REQUEST, "Erro ao validar o atributo ", MessagesExceptions.INVALID_QUANTITY_INSTALLMENTS);
+    INVALID_QUANTITY_INSTALLMENTS(HttpStatus.BAD_REQUEST, "Erro ao validar o atributo ", MessagesExceptions.INVALID_QUANTITY_INSTALLMENTS),
+    TRANSACTION_NOT_FOUND_BY_ID(HttpStatus.NOT_FOUND, "Transação não encontrada com esse ", MessagesExceptions.TRANSACTION_NOT_FOUND_BY_ID),
+    TRANSACTION_NOT_FOUND(HttpStatus.NOT_FOUND, "Não a transações", MessagesExceptions.TRANSACTION_NOT_FOUND);
 
     private final HttpStatus code;
     private final String error;

@@ -13,6 +13,11 @@ import java.util.Optional;
 @Service
 public class ToolsUtil {
 
+    public static String LocalDateTimeToString(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return date.format(formatter);
+    }
+
     public String validNumCard(String numCard, String nameCamp) throws RequestTransactionException {
         validIfNullOrEmpty(numCard, nameCamp);
 

@@ -14,4 +14,6 @@ public class MessagesExceptions {
 
     public static final String ID_INVALID = "id invalido, um id valido possui 9 digitos";
     public static final String INVALID_QUANTITY_INSTALLMENTS = "Quatidade de parcelas invalida para pagamento avista" ;
+    public static final String TRANSACTION_NOT_FOUND = "Nenhuma transação";
+    public static final String TRANSACTION_NOT_FOUND_BY_ID = "Nenhuma transação com id ultilizado foi encontrada";
 }
